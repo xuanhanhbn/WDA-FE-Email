@@ -138,7 +138,7 @@ function CreateTicket() {
         padding: '20px 20px 15px'
       }}
     >
-      <FormControl style={{ minWidth: '550px' }}>
+      <FormControl style={{ minWidth: '540px' }}>
         <CardContent>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 18 }}>
             <svg
