@@ -22,7 +22,6 @@ import ScrollToTop from 'src/@core/components/scroll-to-top'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 import { useRouter } from 'next/router'
 
 const VerticalLayoutWrapper = styled('div')({

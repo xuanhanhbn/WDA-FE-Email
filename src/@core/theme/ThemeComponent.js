@@ -18,19 +18,11 @@ import themeOptions from './ThemeOptions'
 import GlobalStyling from './globalStyles'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { loginPageActions } from 'src/pages/pages/login/loginSlice'
 
 const ThemeComponent = props => {
   // ** Props
   const { settings, children } = props
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    const dataLoginPage = JSON.parse(localStorage.getItem('loginPage'))
-    if (dataLoginPage && dataLoginPage?.token) {
-      dispatch(loginPageActions.userInfo())
-    }
-  }, [])
 
   // ** Merged ThemeOptions of Core and User
   const coreThemeConfig = themeOptions(settings)
