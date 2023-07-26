@@ -44,26 +44,27 @@ const UserLayout = ({ children }) => {
   // }
 
   return (
-    <VerticalLayout
-      hidden={hidden}
-      settings={settings}
-      saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems()} // Navigation Items
-      // afterVerticalNavMenuContent={UpgradeToProImg}
-      verticalAppBarContent={(
-        props // AppBar Content
-      ) => (
-        <VerticalAppBarContent
-          hidden={hidden}
-          settings={settings}
-          saveSettings={saveSettings}
-          toggleNavVisibility={props.toggleNavVisibility}
-        />
-      )}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh'
+      }}
     >
-      {children}
-      <UpgradeToProButton />
-    </VerticalLayout>
+      <div className='nav'></div>
+      <div
+        style={{
+          flex: 1,
+
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minWidth: '400px'
+        }}
+      >
+        {children}
+      </div>
+    </div>
   )
 }
 
