@@ -3,7 +3,7 @@ import { Controller, useForm } from 'react-hook-form'
 
 import Select from 'react-select'
 import CardActions from '@mui/material/CardActions'
-import { FormControl, TextareaAutosize, Typography } from '@mui/material'
+import { FormControl, InputAdornment, InputLabel, TextField, TextareaAutosize, Typography } from '@mui/material'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 
@@ -13,6 +13,8 @@ import Button from '@mui/material/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { styled } from '@mui/system'
+import { inputCustomer } from './constants'
+import { AccountCircle } from 'mdi-material-ui'
 
 const validationSchema = Yup.object().shape({
   ticketCategory: Yup.string().required('Category is required'),
@@ -135,10 +137,11 @@ function CreateTicket() {
         backgroundColor: '#fff',
         borderRadius: '6px',
         boxShadow: '0px 2px 10px 0px rgba(58, 53, 65, 0.1)',
-        padding: '20px 20px 15px'
+        padding: '20px 20px 15px',
+        display: 'flex'
       }}
     >
-      <FormControl style={{ minWidth: '350px' }}>
+      <FormControl style={{ minWidth: '350px', marginRight: 30 }}>
         <CardContent>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 18 }}>
             <svg
@@ -268,6 +271,28 @@ function CreateTicket() {
           </Button>
         </CardActions>
       </FormControl>
+      <div style={{ margin: 'auto' }}>
+        {inputCustomer.map(input => {
+          return (
+            <Grid key={input.field}>
+              <InputLabel style={{ marginBottom: 10 }}>{input.inputLabel}</InputLabel>
+              <TextField
+                variant='standard'
+                placeholder={input.label}
+                name={input.field}
+                required
+                fullWidth
+                disabled
+                value={input.value}
+                style={{ marginBottom: 20, borderBottom: '2px solid #9155FD' }}
+                InputProps={{
+                  startAdornment: <InputAdornment position='start'>{input.icon}</InputAdornment>
+                }}
+              />
+            </Grid>
+          )
+        })}
+      </div>
     </div>
   )
 }
