@@ -13,8 +13,11 @@ import Button from '@mui/material/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { styled } from '@mui/system'
+
 import { inputCustomer } from './constants'
 import { AccountCircle } from 'mdi-material-ui'
+
+import Creatable from 'react-select/creatable'
 
 const validationSchema = Yup.object().shape({
   ticketCategory: Yup.string().required('Category is required'),
@@ -221,12 +224,13 @@ function CreateTicket() {
                   render={({ field }) => (
                     <>
                       {/* <InputLabel>{item.placeHolder}</InputLabel> */}
-                      <Select
+                      <Creatable
                         {...field}
                         onChange={handleSelectChange}
                         options={handleGetOptions()}
                         value={valueCategory}
                         isSearchable
+                        isClearable
                         className='z-2'
                         styles={categoryStyles}
                       />

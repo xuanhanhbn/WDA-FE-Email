@@ -23,7 +23,6 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 import { Button } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { useSnackbar } from 'notistack'
 
@@ -39,7 +38,6 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 const UserDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState(null)
-  const dispatch = useDispatch()
 
   // ** Hooks
   const router = useRouter()

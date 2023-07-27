@@ -54,7 +54,6 @@
     "@mui/lab": "^5.0.0-alpha.70",
     "@mui/material": "^5.4.3",
     "@popperjs/core": "^2.11.2",
-    "@react-native-async-storage/async-storage": "^1.18.1",
     "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.4.7",
     "apexcharts-clevision": "3.28.5",

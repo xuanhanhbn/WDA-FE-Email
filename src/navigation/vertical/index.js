@@ -116,8 +116,9 @@ const navigation = () => {
     {
       title: 'Transactions',
       icon: FileDocumentMultipleOutline,
-      path: '/transactions',
+      path: '/transactions'
     }
+
     //   isShowMenu: true,
     //   role: ['Admin', 'Manager', 'EMPOYLEE'],
     //   disabled: true

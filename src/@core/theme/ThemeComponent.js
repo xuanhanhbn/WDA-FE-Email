@@ -17,12 +17,10 @@ import themeOptions from './ThemeOptions'
 // ** Global Styles
 import GlobalStyling from './globalStyles'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 
 const ThemeComponent = props => {
   // ** Props
   const { settings, children } = props
-  const dispatch = useDispatch()
 
   // ** Merged ThemeOptions of Core and User
   const coreThemeConfig = themeOptions(settings)

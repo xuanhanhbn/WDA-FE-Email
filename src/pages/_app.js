@@ -27,8 +27,6 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 // ** Global css styles
 import '../../styles/globals.css'
 
-import { Provider } from 'react-redux'
-import { store } from './store'
 import { SnackbarProvider } from 'notistack'
 
 const clientSideEmotionCache = createEmotionCache()
@@ -54,25 +52,23 @@ const App = props => {
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
 
   return (
-    <Provider store={store}>
-      <SnackbarProvider>
-        <CacheProvider value={emotionCache}>
-          <Head>
-            <title>{`${themeConfig.templateName}`}</title>
-            <meta name='description' content={`${themeConfig.templateName}`} />
-            <meta name='viewport' content='initial-scale=1, width=device-width' />
-          </Head>
+    <SnackbarProvider>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>{`${themeConfig.templateName}`}</title>
+          <meta name='description' content={`${themeConfig.templateName}`} />
+          <meta name='viewport' content='initial-scale=1, width=device-width' />
+        </Head>
 
-          <SettingsProvider>
-            <SettingsConsumer>
-              {({ settings }) => {
-                return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
-              }}
-            </SettingsConsumer>
-          </SettingsProvider>
-        </CacheProvider>
-      </SnackbarProvider>
-    </Provider>
+        <SettingsProvider>
+          <SettingsConsumer>
+            {({ settings }) => {
+              return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+            }}
+          </SettingsConsumer>
+        </SettingsProvider>
+      </CacheProvider>
+    </SnackbarProvider>
   )
 }
 
