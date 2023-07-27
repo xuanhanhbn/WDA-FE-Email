@@ -20,6 +20,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import Loading from 'src/components/Loading'
 import { AccountCircle, EmailOutline, MapMarkerOutline, PhoneInTalk } from 'mdi-material-ui'
+import { useSnackbar } from 'notistack'
 
 const validationSchema = Yup.object().shape({
   ticketCategory: Yup.string().required('Category is required'),
@@ -133,6 +134,9 @@ function CreateTicket() {
   const [valueCategory, setValueCategory] = useState({})
   const [dataCustomer, setDataCustomer] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const { enqueueSnackbar } = useSnackbar()
+
+  const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   const test = useRef()
   const valiToken = useRef()
@@ -188,10 +192,13 @@ function CreateTicket() {
       const res = await axios.post(`https://wdabckd.azurewebsites.net/api/CustomerTicket/Create`, newDataRequest)
       if (res && res.status === 200) {
         setIsLoading(false)
+
+        return handleShowSnackbar('Create Ticket Success')
       }
     } catch (error) {
       setIsLoading(false)
-      console.error('error: ', error)
+
+      return handleShowSnackbar('There was an error. Please try again.', 'error')
     }
   }
 
