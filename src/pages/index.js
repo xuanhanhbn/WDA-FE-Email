@@ -15,18 +15,47 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { styled } from '@mui/system'
 
-import { inputCustomer } from './constants'
-import { AccountCircle } from 'mdi-material-ui'
-
 import Creatable from 'react-select/creatable'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Loading from 'src/components/Loading'
+import { AccountCircle, EmailOutline, MapMarkerOutline, PhoneInTalk } from 'mdi-material-ui'
 
 const validationSchema = Yup.object().shape({
   ticketCategory: Yup.string().required('Category is required'),
   content: Yup.string().required('Message is required')
 })
+
+const inputCustomer = [
+  {
+    field: 'name',
+    label: 'Name',
+    inputLabel: 'Customer Name: ',
+    value: 'Tống Minh Dương',
+    icon: <AccountCircle />
+  },
+  {
+    field: 'email',
+    label: 'Email',
+    inputLabel: 'Customer Email: ',
+    value: 'email@gmail.com',
+    icon: <EmailOutline />
+  },
+  {
+    field: 'telephone',
+    label: 'Phone',
+    inputLabel: 'Customer Phone: ',
+    value: '0000000',
+    icon: <PhoneInTalk />
+  },
+  {
+    field: 'address',
+    label: 'Adress',
+    inputLabel: 'Customer Adress: ',
+    value: 'Thanh Hóa',
+    icon: <MapMarkerOutline />
+  }
+]
 
 const grey = {
   50: '#f6f8fa',
