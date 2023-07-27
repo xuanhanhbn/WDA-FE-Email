@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import Select from 'react-select'
@@ -18,6 +19,9 @@ import { inputCustomer } from './constants'
 import { AccountCircle } from 'mdi-material-ui'
 
 import Creatable from 'react-select/creatable'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import Loading from 'src/components/Loading'
 
 const validationSchema = Yup.object().shape({
   ticketCategory: Yup.string().required('Category is required'),
@@ -96,25 +100,88 @@ function CreateTicket() {
     resolver: yupResolver(validationSchema)
   })
   const handleClose = () => onClose()
+  const router = useRouter()
+  const [valueCategory, setValueCategory] = useState({})
+  const [dataCustomer, setDataCustomer] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+
+  const test = useRef()
+  const valiToken = useRef()
 
   const onSubmit = data => {
-    console.log(data)
-    alert('đã tạo ticket thành công')
+    handleCreateTicket(data)
   }
-  const [valueCategory, setValueCategory] = useState({})
+
+  useEffect(() => {
+    setTimeout(() => {
+      handleGetDataCustomer()
+    }, 2000)
+  }, [])
+
+  useEffect(() => {
+    if (router && Object.keys(router?.query).length) {
+      test.current = router?.query?.customerId
+      valiToken.current = router?.query?.validationToken
+    }
+  }, [router.query])
+
+  const handleGetDataCustomer = async () => {
+    try {
+      setIsLoading(true)
+
+      const config = {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJoYW5obnhAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc2lkIjoiNjE1OWE1ODAtNmUxNC00ZTFmLTA3MTktMDhkYjhjMWI3MjRiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE2OTEwNTQzMDAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzA4NDEsaHR0cDovL2xvY2FsaG9zdDo0NDMzNSxodHRwczovL2xvY2FsaG9zdDo3Mjc1O2h0dHA6Ly9sb2NhbGhvc3Q6NTEyMiIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzA4NDEsaHR0cDovL2xvY2FsaG9zdDo0NDMzNSxodHRwczovL2xvY2FsaG9zdDo3Mjc1O2h0dHA6Ly9sb2NhbGhvc3Q6NTEyMiJ9.LcDs_RZxAuzw3fVYj2gxb7KvIOhz7ASIurp1LhMsKPo'
+        }
+      }
+      const res = await axios.get(`https://wdabckd.azurewebsites.net/api/Customer/${test.current}`, config)
+
+      if (res && res.status === 200) {
+        setIsLoading(false)
+        setDataCustomer(res.data)
+      }
+    } catch (error) {
+      setIsLoading(false)
+      console.error('error: ', error)
+    }
+  }
+
+  const handleCreateTicket = async data => {
+    try {
+      setIsLoading(true)
+
+      const newDataRequest = {
+        ...data,
+        customerId: test.current,
+        validationToken: valiToken.current
+      }
+      const res = await axios.post(`https://wdabckd.azurewebsites.net/api/CustomerTicket/Create`, newDataRequest)
+      if (res && res.status === 200) {
+        setIsLoading(false)
+      }
+    } catch (error) {
+      setIsLoading(false)
+      console.error('error: ', error)
+    }
+  }
 
   const dataCategory = [
     {
       categoryId: '1',
-      name: 'Category 1'
+      name: 'Technical'
     },
     {
       categoryId: '2',
-      name: 'Category 2'
+      name: 'NonTechnical'
     },
     {
       categoryId: '3',
-      name: 'Category 3'
+      name: 'Refund'
+    },
+    {
+      categoryId: '4',
+      name: 'Exchange'
     }
   ]
 
@@ -130,7 +197,7 @@ function CreateTicket() {
   // Xử lí change Select
   const handleSelectChange = selectedOption => {
     const selectedValue = selectedOption
-    setValue('ticketCategory', selectedValue?.value, { shouldValidate: true })
+    setValue('ticketCategory', selectedValue?.label, { shouldValidate: true })
     setValueCategory(selectedValue)
   }
 
@@ -144,7 +211,7 @@ function CreateTicket() {
         display: 'flex'
       }}
     >
-      <FormControl style={{ minWidth: '350px', marginRight: 30 }}>
+      <FormControl style={{ minWidth: '450px', marginRight: 30 }}>
         <CardContent>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 18 }}>
             <svg
@@ -287,7 +354,7 @@ function CreateTicket() {
                 required
                 fullWidth
                 disabled
-                value={input.value}
+                value={dataCustomer[input.field]}
                 style={{ marginBottom: 20, borderBottom: '2px solid #9155FD' }}
                 InputProps={{
                   startAdornment: <InputAdornment position='start'>{input.icon}</InputAdornment>
@@ -297,6 +364,7 @@ function CreateTicket() {
           )
         })}
       </div>
+      <Loading isLoading={isLoading} />
     </div>
   )
 }
