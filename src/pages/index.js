@@ -136,6 +136,7 @@ function CreateTicket() {
   const [valueCategory, setValueCategory] = useState({})
   const [dataCustomer, setDataCustomer] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+
   const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   const test = useRef()
